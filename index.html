@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>N5 Kotoba - Từ vựng tiếng Nhật cho người Việt</title>
+    <link rel="icon" href="assets/fuji-study.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <img src="assets/fuji-study.svg" alt="N5 Kotoba" />
+          <div>
+            <p>JLPT N5</p>
+            <h1>N5 Kotoba</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-button" id="shuffleBtn" type="button" title="Trộn bộ thẻ" aria-label="Trộn bộ thẻ">
+            <span aria-hidden="true">↻</span>
+          </button>
+          <button class="primary-button" id="dailyBtn" type="button">Ôn hôm nay</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="sidebar" aria-label="Bộ lọc học tập">
+          <label class="field">
+            <span>Tìm từ</span>
+            <input id="searchInput" type="search" autocomplete="off" placeholder="nihon, học, 先生" />
+          </label>
+
+          <div class="mode-tabs" id="modeTabs" role="tablist" aria-label="Chế độ">
+            <button class="active" type="button" data-mode="study">Học</button>
+            <button type="button" data-mode="quiz">Quiz</button>
+            <button type="button" data-mode="list">Sổ từ</button>
+            <button type="button" data-mode="grammar">Ngữ pháp</button>
+            <button type="button" data-mode="kanji">Kanji</button>
+          </div>
+
+          <section class="filter-section">
+            <h2>Chủ đề</h2>
+            <div class="topic-list" id="topicList"></div>
+          </section>
+
+          <section class="goal-panel">
+            <div class="panel-heading">
+              <h2>Mục tiêu</h2>
+              <output id="goalOutput" for="goalRange">20</output>
+            </div>
+            <input id="goalRange" type="range" min="5" max="40" step="5" value="20" />
+            <div class="mini-progress" aria-hidden="true">
+              <span id="goalBar"></span>
+            </div>
+          </section>
+        </aside>
+
+        <section class="content">
+          <section class="stats-grid" aria-label="Tiến độ">
+            <article>
+              <span id="totalCount">0</span>
+              <p>Từ vựng</p>
+            </article>
+            <article>
+              <span id="masteredCount">0</span>
+              <p>Ngữ pháp</p>
+            </article>
+            <article>
+              <span id="dueCount">0</span>
+              <p>Kanji</p>
+            </article>
+            <article>
+              <span id="todayCount">0</span>
+              <p>Hôm nay</p>
+            </article>
+          </section>
+
+          <section class="panel active" id="studyPanel" aria-label="Học bằng flashcard">
+            <div class="study-layout">
+              <article class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="Lật thẻ">
+                <div class="card-topline">
+                  <span id="cardTopic">N5</span>
+                  <button class="speak-button" id="speakBtn" type="button" title="Nghe phát âm" aria-label="Nghe phát âm">
+                    <span aria-hidden="true">♪</span>
+                  </button>
+                </div>
+                <div class="word-face">
+                  <span class="word-main" id="cardTerm">日本</span>
+                  <span class="word-kana" id="cardKana">にほん</span>
+                  <span class="word-romaji" id="cardRomaji">nihon</span>
+                </div>
+                <div class="answer-block" id="answerBlock">
+                  <span id="cardMeaning">Nhật Bản</span>
+                  <p id="cardExampleJa">日本へ行きます。</p>
+                  <p id="cardExampleVi">Tôi đi Nhật Bản.</p>
+                </div>
+              </article>
+
+              <div class="study-side">
+                <div class="queue-card">
+                  <div class="panel-heading">
+                    <h2>Hàng đợi</h2>
+                    <span id="queueCount">0</span>
+                  </div>
+                  <div class="queue-strip" id="queueStrip" aria-label="Các thẻ tiếp theo"></div>
+                </div>
+                <div class="action-grid">
+                  <button class="danger-button" type="button" data-grade="hard">Khó</button>
+                  <button class="neutral-button" type="button" data-grade="learning">Đang học</button>
+                  <button class="success-button" type="button" data-grade="mastered">Đã nhớ</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="quizPanel" aria-label="Luyện quiz">
+            <div class="quiz-toolbar">
+              <div class="segmented" id="quizDirection" role="tablist" aria-label="Kiểu câu hỏi">
+                <button class="active" type="button" data-direction="ja-vi">Nhật → Việt</button>
+                <button type="button" data-direction="vi-ja">Việt → Nhật</button>
+              </div>
+              <div class="quiz-score">
+                <span id="quizScore">0/0</span>
+              </div>
+            </div>
+
+            <article class="quiz-card">
+              <p id="quizTopic">N5</p>
+              <h2 id="quizQuestion">日本</h2>
+              <div class="choices" id="choices"></div>
+              <button class="primary-button" id="nextQuestionBtn" type="button">Câu tiếp</button>
+            </article>
+          </section>
+
+          <section class="panel" id="listPanel" aria-label="Sổ từ">
+            <div class="list-toolbar">
+              <div>
+                <h2>Sổ từ N5</h2>
+                <p id="listMeta">0 từ</p>
+              </div>
+              <button class="ghost-button" id="resetBtn" type="button">Đặt lại tiến độ</button>
+            </div>
+            <div class="word-list" id="wordList"></div>
+          </section>
+
+          <section class="panel" id="grammarPanel" aria-label="Ngữ pháp N5">
+            <div class="list-toolbar">
+              <div>
+                <h2>Ngữ pháp N5</h2>
+                <p id="grammarMeta">0 mẫu</p>
+              </div>
+              <div class="quiz-score">
+                <span id="grammarGroupMeta">Tất cả nhóm</span>
+              </div>
+            </div>
+            <div class="grammar-groups" id="grammarGroups" aria-label="Nhóm ngữ pháp"></div>
+            <div class="grammar-list" id="grammarList"></div>
+          </section>
+
+          <section class="panel" id="kanjiPanel" aria-label="Kanji N5">
+            <div class="list-toolbar">
+              <div>
+                <h2>Kanji N5</h2>
+                <p id="kanjiMeta">0 chữ</p>
+              </div>
+              <button class="ghost-button" id="clearCanvasBtn" type="button">Xóa bảng viết</button>
+            </div>
+
+            <div class="kanji-layout">
+              <article class="kanji-card" id="kanjiCard">
+                <div class="kanji-main">
+                  <span id="kanjiGlyph">日</span>
+                  <div>
+                    <p id="kanjiMeaning">ngày, mặt trời</p>
+                    <h2 id="kanjiReadings">ニチ, ジツ · ひ, か</h2>
+                    <span id="kanjiStrokeCount">4 nét</span>
+                  </div>
+                </div>
+                <div class="stroke-layout">
+                  <div class="stroke-box" id="strokeBox"></div>
+                  <canvas id="kanjiCanvas" width="320" height="320" aria-label="Bảng tập viết kanji"></canvas>
+                </div>
+                <div class="kanji-examples" id="kanjiExamples"></div>
+              </article>
+              <div class="kanji-grid" id="kanjiGrid" aria-label="Danh sách kanji N5"></div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="study-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
