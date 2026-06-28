@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="N5 Kotoba">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#dceee7"/>
+      <stop offset="1" stop-color="#fff2c9"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" rx="18" fill="url(#sky)"/>
+  <circle cx="134" cy="45" r="22" fill="#d84f3f"/>
+  <path d="M25 130 77 54l26 40 14-18 38 54z" fill="#167f86"/>
+  <path d="M77 54 94 80 66 72z" fill="#ffffff"/>
+  <path d="M42 132h96v20H42z" fill="#ffffff" opacity=".92"/>
+  <path d="M52 141h33M96 141h31" stroke="#182226" stroke-width="7" stroke-linecap="round"/>
+  <text x="90" y="119" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#ffffff">あ</text>
+</svg>
